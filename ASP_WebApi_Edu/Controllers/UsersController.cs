@@ -1,5 +1,7 @@
 ﻿using ASP_WebApi_Edu.Data;
+using ASP_WebApi_Edu.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASP_WebApi_Edu.Controllers
 {
@@ -15,9 +17,9 @@ namespace ASP_WebApi_Edu.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<ActionResult<IEnumerable<User>>> GetAll()
         {
-            var users = _context.Users.ToList();
+            var users = await _context.Users.ToListAsync();
 
             return Ok(users);
         }
