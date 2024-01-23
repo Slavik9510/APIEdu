@@ -17,7 +17,7 @@ namespace ASP_WebApi_Edu.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
             var users = await _context.Users.ToListAsync();
 
