@@ -1,4 +1,6 @@
-﻿using ASP_WebApi_Edu.Data;
+﻿
+using ASP_WebApi_Edu.Data;
+using ASP_WebApi_Edu.Helpers;
 using ASP_WebApi_Edu.Interfaces;
 using ASP_WebApi_Edu.Services;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +18,8 @@ namespace ASP_WebApi_Edu.Extensions
              });
             services.AddCors();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddAutoMapper(typeof(AutoMapperProfiles));
 
             return services;
         }

@@ -1,6 +1,6 @@
 ﻿namespace ASP_WebApi_Edu.Models.DTO
 {
-    public class UserDto
+    public class UserAccountDto
     {
         public string Username { get; set; }
 

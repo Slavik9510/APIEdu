@@ -1,0 +1,17 @@
+﻿namespace ASP_WebApi_Edu.Extensions
+{
+    public static class DateTimeExtensions
+    {
+        public static int CalculateAge(this DateOnly dateOfBirth)
+        {
+            var today = DateOnly.FromDateTime(DateTime.UtcNow);
+
+            var age = today.Year - dateOfBirth.Year;
+            if (today < dateOfBirth.AddYears(age))
+            {
+                age--;
+            }
+            return age;
+        }
+    }
+}

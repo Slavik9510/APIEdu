@@ -1,5 +1,9 @@
 ﻿using ASP_WebApi_Edu.Data;
+using ASP_WebApi_Edu.Interfaces;
 using ASP_WebApi_Edu.Models.Domain;
+using ASP_WebApi_Edu.Models.DTO;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,32 +11,31 @@ namespace ASP_WebApi_Edu.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UsersController(DataContext context)
+        public UsersController(IUserRepository userRepository, IMapper mapper)
         {
-            _context = context;
+            _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var users = await _context.Users.ToListAsync();
+            var usersDto = await _userRepository.GetMembersAsync();
 
-            return Ok(users);
+            return Ok(usersDto);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Get([FromRoute] int id)
+        [HttpGet("{username}")]
+        public async Task<IActionResult> Get([FromRoute] string username)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Id == id);
-            if (user == null)
-            {
-                return BadRequest();
-            }
-            return Ok(user);
+            var userDto = await _userRepository.GetMemberAsync(username);
+            return Ok(userDto);
         }
     }
 }
