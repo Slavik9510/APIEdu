@@ -18,7 +18,7 @@ namespace ASP_WebApi_Edu.Data
 
             var users = JsonSerializer.Deserialize<List<User>>(userData, options);
 
-            foreach(var user in users)
+            foreach (var user in users)
             {
                 using var hmac = new HMACSHA512();
 
