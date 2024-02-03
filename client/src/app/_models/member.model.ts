@@ -5,8 +5,6 @@ export interface Member {
     username: string
     photoUrl: string
     age: number
-    passwordHash: string
-    passwordSalt: string
     dateOfBirth: string
     knownAs: string
     created: string
