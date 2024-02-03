@@ -32,7 +32,7 @@ namespace ASP_WebApi_Edu.Controllers
             }
             using var hmac = new HMACSHA512();
 
-            var user = new User
+            var user = new AppUser
             {
                 Username = registerUserDto.Username.ToLower(),
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerUserDto.Password)),

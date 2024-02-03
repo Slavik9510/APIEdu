@@ -16,7 +16,7 @@ namespace ASP_WebApi_Edu.Data
 
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-            var users = JsonSerializer.Deserialize<List<User>>(userData, options);
+            var users = JsonSerializer.Deserialize<List<AppUser>>(userData, options);
 
             foreach (var user in users)
             {

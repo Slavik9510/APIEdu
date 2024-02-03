@@ -4,6 +4,6 @@ namespace ASP_WebApi_Edu.Interfaces
 {
     public interface ITokenService
     {
-        string CreateToken(User user);
+        string CreateToken(AppUser user);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace ASP_WebApi_Edu.Models.Domain
 {
-    public class User
+    public class AppUser
     {
         public int Id { get; set; }
         public string Username { get; set; }

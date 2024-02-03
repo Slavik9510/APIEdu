@@ -1,6 +1,4 @@
-﻿using ASP_WebApi_Edu.Models.Domain;
-
-namespace ASP_WebApi_Edu.Models.DTO
+﻿namespace ASP_WebApi_Edu.Models.DTO
 {
     public class MemberDto
     {

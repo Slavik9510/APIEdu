@@ -11,7 +11,7 @@ namespace ASP_WebApi_Edu.Data
         {
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<AppUser> Users { get; set; }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder builder)
         {

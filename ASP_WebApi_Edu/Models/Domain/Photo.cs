@@ -12,6 +12,6 @@ namespace ASP_WebApi_Edu.Models.Domain
 
         //Navigation Properties
         public int UserID { get; set; }
-        public User User { get; set; }
+        public AppUser User { get; set; }
     }
 }

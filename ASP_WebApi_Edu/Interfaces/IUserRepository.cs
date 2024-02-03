@@ -5,11 +5,11 @@ namespace ASP_WebApi_Edu.Interfaces
 {
     public interface IUserRepository
     {
-        void Update(User user);
+        void Update(AppUser user);
         Task<bool> SaveAllAsync();
-        Task<IEnumerable<User?>> GetUsersAsync();
-        Task<User?> GetUserByIdAsync(int id);
-        Task<User?> GetUserByUsernameAsync(string username);
+        Task<IEnumerable<AppUser?>> GetUsersAsync();
+        Task<AppUser?> GetUserByIdAsync(int id);
+        Task<AppUser?> GetUserByUsernameAsync(string username);
         Task<IEnumerable<MemberDto?>> GetMembersAsync();
         Task<MemberDto?> GetMemberAsync(string username);
     }

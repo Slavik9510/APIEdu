@@ -17,20 +17,20 @@ namespace ASP_WebApi_Edu.Data
             _context = context;
             _mapper = mapper;
         }
-        public async Task<User?> GetUserByIdAsync(int id)
+        public async Task<AppUser?> GetUserByIdAsync(int id)
 
         {
             return await _context.Users.FindAsync(id);
         }
 
-        public async Task<User?> GetUserByUsernameAsync(string username)
+        public async Task<AppUser?> GetUserByUsernameAsync(string username)
         {
             return await _context.Users
                 .Include(u => u.Photos)
                 .SingleOrDefaultAsync(u => u.Username.Equals(username));
         }
 
-        public async Task<IEnumerable<User?>> GetUsersAsync()
+        public async Task<IEnumerable<AppUser?>> GetUsersAsync()
         {
             return await _context.Users
                 .Include(u => u.Photos)
@@ -42,7 +42,7 @@ namespace ASP_WebApi_Edu.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public void Update(User user)
+        public void Update(AppUser user)
         {
             _context.Entry(user).State = EntityState.Modified;
         }
