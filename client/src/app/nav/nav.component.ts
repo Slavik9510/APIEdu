@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../_services/account.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-nav',
@@ -14,6 +15,9 @@ export class NavComponent implements OnInit {
   constructor(public accountService: AccountService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: user => console.log(user)
+    })
   }
 
   login() {

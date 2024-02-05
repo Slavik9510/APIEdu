@@ -53,7 +53,8 @@ namespace ASP_WebApi_Edu.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginDto.Username);
+            var user = await _context.Users.Include(p => p.Photos)
+                .SingleOrDefaultAsync(x => x.Username == loginDto.Username);
 
             if (user == null)
             {
@@ -71,8 +72,9 @@ namespace ASP_WebApi_Edu.Controllers
 
             var dto = new UserAccountDto
             {
-                Username = user.Username!,
+                Username = user.Username,
                 Token = _tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
             };
 
             return Ok(dto);
