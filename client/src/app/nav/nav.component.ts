@@ -16,7 +16,7 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
-      next: user => console.log(user)
+      //next: user => console.log(user)
     })
   }
 

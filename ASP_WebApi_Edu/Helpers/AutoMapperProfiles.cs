@@ -16,6 +16,7 @@ namespace ASP_WebApi_Edu.Helpers
 
             CreateMap<Photo, PhotoDto>();
             CreateMap<MemberUpdateDto, AppUser>();
+            CreateMap<RegisterUserDto, AppUser>();
         }
     }
 }
