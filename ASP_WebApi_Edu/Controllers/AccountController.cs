@@ -3,7 +3,6 @@ using ASP_WebApi_Edu.Interfaces;
 using ASP_WebApi_Edu.Models.Domain;
 using ASP_WebApi_Edu.Models.DTO;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
@@ -45,11 +44,12 @@ namespace ASP_WebApi_Edu.Controllers
             _context.Add(user);
             await _context.SaveChangesAsync();
 
-            var dto = new UserAccountDto
+            var dto = new UserDto
             {
                 Username = user.Username,
                 Token = _tokenService.CreateToken(user),
-                KnownAs = user.KnownAs
+                KnownAs = user.KnownAs,
+                Gender = user.Gender
             };
 
             return Ok(dto);
@@ -75,12 +75,13 @@ namespace ASP_WebApi_Edu.Controllers
                 return Unauthorized("Invalid password");
             }
 
-            var dto = new UserAccountDto
+            var dto = new UserDto
             {
                 Username = user.Username,
                 Token = _tokenService.CreateToken(user),
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                KnownAs = user.KnownAs
+                KnownAs = user.KnownAs,
+                Gender = user.Gender
             };
 
             return Ok(dto);

@@ -1,17 +1,18 @@
 ﻿using ASP_WebApi_Edu.Extensions;
+using ASP_WebApi_Edu.Helpers;
 using ASP_WebApi_Edu.Interfaces;
 using ASP_WebApi_Edu.Models.Domain;
 using ASP_WebApi_Edu.Models.DTO;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace ASP_WebApi_Edu.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
+    [ServiceFilter(typeof(LogUserActivity))]
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
@@ -26,11 +27,22 @@ namespace ASP_WebApi_Edu.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetUsers([FromQuery] UserParams userParams)
         {
-            var usersDto = await _userRepository.GetMembersAsync();
+            var currentUser = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            userParams.CurrentUsername = currentUser.Username;
 
-            return Ok(usersDto);
+            if (string.IsNullOrEmpty(userParams.Gender))
+            {
+                userParams.Gender = currentUser.Gender == "male" ? "female" : "male";
+            }
+
+            var users = await _userRepository.GetMembersAsync(userParams);
+
+            Response.AddPaginationHeader(new PaginationHeader(users.CurrentPage, users.PageSize,
+                users.TotalCount, users.TotalPages));
+
+            return Ok(users);
         }
 
         [HttpGet("{username}")]

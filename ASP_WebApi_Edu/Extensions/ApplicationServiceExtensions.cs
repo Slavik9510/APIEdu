@@ -22,6 +22,7 @@ namespace ASP_WebApi_Edu.Extensions
             services.AddAutoMapper(typeof(AutoMapperProfiles));
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             services.AddScoped<IPhotoService, PhotoService>();
+            services.AddScoped<LogUserActivity>();
 
             return services;
         }
