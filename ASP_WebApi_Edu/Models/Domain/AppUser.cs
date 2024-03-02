@@ -1,6 +1,4 @@
-﻿using ASP_WebApi_Edu.Extensions;
-
-namespace ASP_WebApi_Edu.Models.Domain
+﻿namespace ASP_WebApi_Edu.Models.Domain
 {
     public class AppUser
     {
@@ -20,9 +18,7 @@ namespace ASP_WebApi_Edu.Models.Domain
         public string City { get; set; }
         public List<Photo> Photos { get; set; } = new();
 
-        /*public int GetAge()
-        {
-            return DateOfBirth.CalculateAge();
-        }*/
+        public List<UserLike> LikedByUsers { get; set; }
+        public List<UserLike> LikedUsers { get; set; }
     }
 }
