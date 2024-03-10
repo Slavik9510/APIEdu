@@ -12,6 +12,7 @@ namespace ASP_WebApi_Edu.Data
 
         public DbSet<AppUser> Users { get; set; }
         public DbSet<UserLike> Likes { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder builder)
         {
@@ -38,6 +39,16 @@ namespace ASP_WebApi_Edu.Data
                 .WithMany(l => l.LikedByUsers)
                 .HasForeignKey(s => s.TargetUserId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Message>()
+               .HasOne(u => u.Recepient)
+               .WithMany(m => m.MessagesReceived)
+               .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Message>()
+               .HasOne(u => u.Sender)
+               .WithMany(m => m.MessagesSent)
+               .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

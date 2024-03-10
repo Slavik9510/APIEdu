@@ -17,6 +17,12 @@ namespace ASP_WebApi_Edu.Helpers
             CreateMap<Photo, PhotoDto>();
             CreateMap<MemberUpdateDto, AppUser>();
             CreateMap<RegisterUserDto, AppUser>();
+
+            CreateMap<Message, MessageDto>()
+                .ForMember(d => d.SenderPhotoUrl,
+                o => o.MapFrom(d => d.Sender.Photos.FirstOrDefault(p => p.IsMain).Url))
+                .ForMember(d => d.RecepientPhotoUrl,
+                o => o.MapFrom(d => d.Recepient.Photos.FirstOrDefault(p => p.IsMain).Url));
         }
     }
 }
