@@ -9,6 +9,8 @@ namespace ASP_WebApi_Edu.Helpers
     {
         public AutoMapperProfiles()
         {
+            // Configures PhotoUrl to map from AppUser's main photo URL
+            // and Age to calculate from DateOfBirth.
             CreateMap<AppUser, MemberDto>()
                 .ForMember(dest => dest.PhotoUrl,
                 opt => opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url))
@@ -18,6 +20,8 @@ namespace ASP_WebApi_Edu.Helpers
             CreateMap<MemberUpdateDto, AppUser>();
             CreateMap<RegisterUserDto, AppUser>();
 
+            // Configures SenderPhotoUrl to map from Sender's main photo URL
+            // and RecepientPhotoUrl to map from Recepient's main photo URL.
             CreateMap<Message, MessageDto>()
                 .ForMember(d => d.SenderPhotoUrl,
                 o => o.MapFrom(d => d.Sender.Photos.FirstOrDefault(p => p.IsMain).Url))

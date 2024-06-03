@@ -6,6 +6,7 @@ namespace ASP_WebApi_Edu.Helpers
 {
     public class LogUserActivity : IAsyncActionFilter
     {
+        // Updates the last active timestamp for the authenticated user.
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var resultContext = await next();

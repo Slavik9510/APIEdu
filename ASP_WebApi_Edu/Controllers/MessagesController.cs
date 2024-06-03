@@ -49,8 +49,8 @@ namespace ASP_WebApi_Edu.Controllers
             {
                 Sender = sender,
                 Recepient = recepient,
-                SenderUsername = sender.Username,
-                RecepientUsername = recepient.Username,
+                SenderUsername = sender.UserName,
+                RecepientUsername = recepient.UserName,
                 Content = createMessageDto.Content
             };
 
@@ -85,6 +85,27 @@ namespace ASP_WebApi_Edu.Controllers
             var messagesThread = await _messageRepository.GetMessagesThread(currentUsername, username);
 
             return Ok(messagesThread);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMessage(int id)
+        {
+            var username = User.GetUsername();
+
+            var message = await _messageRepository.GetMessage(id);
+
+            if (message.SenderUsername != username && message.RecepientUsername != username)
+                return Unauthorized();
+
+            if (message.SenderUsername == username) message.SenderDeleted = true;
+            if (message.RecepientUsername == username) message.RecepientDeleted = true;
+
+            if (message.SenderDeleted && message.RecepientDeleted)
+                _messageRepository.DeleteMessage(message);
+
+            if (await _messageRepository.SaveAllAsync()) return Ok();
+
+            return BadRequest("Problem deleting the message");
         }
     }
 }

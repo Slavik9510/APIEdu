@@ -16,16 +16,19 @@ namespace ASP_WebApi_Edu.Data
             _context = context;
         }
 
-        public async Task<UserLike> GetUserLike(int sourceUserId, int targetUserId)
+        // Retrieves the UserLike object from the database based on the
+        // provided source (user who left a like) and target (user who was liked) user IDs
+        public async Task<UserLike?> GetUserLike(int sourceUserId, int targetUserId)
         {
             return await _context.Likes.FindAsync(sourceUserId, targetUserId);
         }
 
         public async Task<PagedList<LikeDto>> GetUserLikes(LikesParams likesParams)
         {
-            var users = _context.Users.OrderBy(u => u.Username).AsQueryable();
+            var users = _context.Users.OrderBy(u => u.UserName).AsQueryable();
             var likes = _context.Likes.AsQueryable();
 
+            // Check the predicate specified in likesParams to determine the type of likes to retrieve
             if (likesParams.Predicate == "liked")
             {
                 likes = likes.Where(like => like.SourceUserId == likesParams.UserId);
@@ -37,9 +40,10 @@ namespace ASP_WebApi_Edu.Data
                 users = likes.Select(like => like.SourceUser);
             }
 
+            // Select relevant information about liked users and map them to LikeDto objects
             var likedUsers = users.Select(user => new LikeDto()
             {
-                Username = user.Username,
+                Username = user.UserName,
                 Age = user.DateOfBirth.CalculateAge(),
                 City = user.City,
                 KnownAs = user.KnownAs,

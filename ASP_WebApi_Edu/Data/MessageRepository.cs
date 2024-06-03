@@ -23,7 +23,7 @@ namespace ASP_WebApi_Edu.Data
             _context.Messages.Add(message);
         }
 
-        public void Delete(Message message)
+        public void DeleteMessage(Message message)
         {
             _context.Messages.Remove(message);
         }
@@ -41,9 +41,10 @@ namespace ASP_WebApi_Edu.Data
 
             query = messageParams.Container switch
             {
-                "Inbox" => query.Where(u => u.RecepientUsername == messageParams.Username),
-                "Outbox" => query.Where(u => u.SenderUsername == messageParams.Username),
-                _ => query.Where(u => u.RecepientUsername == messageParams.Username && u.DateRead == null)
+                "Inbox" => query.Where(u => u.RecepientUsername == messageParams.Username && !u.RecepientDeleted),
+                "Outbox" => query.Where(u => u.SenderUsername == messageParams.Username && !u.SenderDeleted),
+                _ => query.Where(u => u.RecepientUsername == messageParams.Username
+                && u.DateRead == null && !u.RecepientDeleted)
             };
 
             var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
@@ -54,18 +55,22 @@ namespace ASP_WebApi_Edu.Data
 
         public async Task<IEnumerable<MessageDto>> GetMessagesThread(string currentUsername, string recepientUsername)
         {
+            // Retrieve messages from the database including sender and recipient information and their photos
             var messages = await _context.Messages
                 .Include(u => u.Sender).ThenInclude(p => p.Photos)
                 .Include(u => u.Recepient).ThenInclude(p => p.Photos)
                 .Where(
                 m => m.RecepientUsername == currentUsername &&
+                m.RecepientDeleted == false &&
                 m.SenderUsername == recepientUsername ||
                 m.RecepientUsername == recepientUsername &&
+                m.SenderDeleted == false &&
                 m.SenderUsername == currentUsername
                 )
                 .OrderBy(m => m.MessageSent)
                 .ToListAsync();
 
+            // Identify unread messages and mark them as read
             var unreadMessages = messages.Where(m => m.DateRead == null
                 && m.RecepientUsername == currentUsername).ToList();
 

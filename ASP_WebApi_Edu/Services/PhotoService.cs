@@ -25,6 +25,8 @@ namespace ASP_WebApi_Edu.Services
                 var uploadParams = new ImageUploadParams
                 {
                     File = new FileDescription(file.FileName, stream),
+                    // Crop the image to fill a 500x500-pixel area,
+                    // maintaining aspect ratio and focusing on the face
                     Transformation = new Transformation().Height(500).Width(500).Crop("fill").Gravity("face"),
                     Folder = "da-net7"
                 };

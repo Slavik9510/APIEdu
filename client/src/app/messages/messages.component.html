@@ -40,13 +40,14 @@
                     </div>
                     <div *ngIf="container!=='Outbox'">
                         <img class="img-circle rounded-circle me-2"
-                            src="{{message.recepientPhotoUrl || '/assets/user.png'}}" alt="recepient photo">
-                        <strong>{{message.recepientUsername | titlecase}}</strong>
+                            src="{{message.senderPhotoUrl || '/assets/user.png'}}" alt="recepient photo">
+                        <strong>{{message.senderUsername | titlecase}}</strong>
                     </div>
                 </td>
-                <td>{{message.messageSent | timeago}}</td>
+                <td>{{message.messageSent+'z' | timeago}}</td>
                 <td>
-                    <button class="btn btn-danger">Delete</button>
+                    <button class="btn btn-danger" (click)="$event.stopPropagation()"
+                        (click)="deleteMessages(message.id)">Delete</button>
                 </td>
             </tr>
         </tbody>

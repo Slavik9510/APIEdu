@@ -28,7 +28,7 @@ namespace ASP_WebApi_Edu.Data
         {
             return await _context.Users
                 .Include(u => u.Photos)
-                .SingleOrDefaultAsync(u => u.Username.Equals(username));
+                .SingleOrDefaultAsync(u => u.UserName.Equals(username));
         }
 
         public async Task<IEnumerable<AppUser?>> GetUsersAsync()
@@ -53,7 +53,7 @@ namespace ASP_WebApi_Edu.Data
 
         public async Task<MemberDto?> GetMemberAsync(string username)
         {
-            return await _context.Users.Where(x => x.Username.Equals(username))
+            return await _context.Users.Where(x => x.UserName.Equals(username))
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();
         }
@@ -62,7 +62,7 @@ namespace ASP_WebApi_Edu.Data
         {
             var query = _context.Users.AsQueryable();
 
-            query = query.Where(u => u.Username != userParams.CurrentUsername);
+            query = query.Where(u => u.UserName != userParams.CurrentUsername);
             query = query.Where(u => u.Gender == userParams.Gender);
 
             var minDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MaxAge - 1));
