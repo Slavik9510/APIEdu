@@ -27,6 +27,10 @@ namespace ASP_WebApi_Edu.Helpers
                 o => o.MapFrom(d => d.Sender.Photos.FirstOrDefault(p => p.IsMain).Url))
                 .ForMember(d => d.RecepientPhotoUrl,
                 o => o.MapFrom(d => d.Recepient.Photos.FirstOrDefault(p => p.IsMain).Url));
+
+            CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
+            CreateMap<DateTime?, DateTime?>().ConvertUsing(d => d.HasValue ?
+                DateTime.SpecifyKind(d.Value, DateTimeKind.Utc) : null);
         }
     }
 }

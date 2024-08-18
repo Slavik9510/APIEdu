@@ -1,8 +1,8 @@
-﻿
-using ASP_WebApi_Edu.Data;
+﻿using ASP_WebApi_Edu.Data;
 using ASP_WebApi_Edu.Helpers;
 using ASP_WebApi_Edu.Interfaces;
 using ASP_WebApi_Edu.Services;
+using ASP_WebApi_Edu.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ASP_WebApi_Edu.Extensions
@@ -25,6 +25,8 @@ namespace ASP_WebApi_Edu.Extensions
             services.AddScoped<LogUserActivity>();
             services.AddScoped<ILikesRepository, LikesRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
+            services.AddSignalR();
+            services.AddSingleton<PresenceTracker>();
 
             return services;
         }
